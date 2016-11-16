@@ -1,0 +1,7 @@
+sudo: required
+language: ruby
+services:
+- docker
+script:
+- scripts/get-jq.sh && docker build -t timjones/snapci-resource .
+
