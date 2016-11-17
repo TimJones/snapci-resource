@@ -6,11 +6,22 @@ Useful when migrating from Snap CI to Concourse CI.
 
 ## Source Configuration
 
+* `owner`: *Required.* The Snap CI build owner.
+
+* `repository`: *Required.* The Snap CI build repository.
+
+* `branch_name`: *Required.* The Snap CI build branch name.
+
+* `user`: *Required.* Your Snap CI user account.
+
+* `api_key`: *Required.* Your Snap CI User API Key.
+
 ## Behavior
 
-### `check`: Nothing.
+### `check`: Checks for Snap CI builds.
 
-No-op.
+Calls the Snap CI pipelines API to iterate over builds in the specified 
+pipeline.
 
 
 ### `in`: Nothing.

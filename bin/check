@@ -1,0 +1,44 @@
+#!/bin/sh
+
+set -eu
+
+exec 3>&1 # make stdout available as fd 3 for the result
+exec 1>&2 # redirect all output to stderr for logging
+
+curl_wrapper () {
+    user=$1
+    auth=$2
+    uri=$3
+    curl -Ss -u ${user}:${auth} -X GET -H 'Accept: application/vnd.snap-ci.com.v1+json' ${uri}
+}
+
+export TMPDIR=${TMPDIR:-/tmp}
+
+payload=${TMPDIR}/snapci-resource-request
+builds=${TMPDIR}/snapci-builds
+
+cat > $payload <&0
+
+owner=$(jq -r '.source.owner // ""' < $payload)
+repository=$(jq -r '.source.repository // ""' < $payload)
+branch_name=$(jq -r '.source.branch_name // ""' < $payload)
+user=$(jq -r '.source.user // ""' < $payload)
+api_key=$(jq -r '.source.api_key // ""' < $payload)
+
+ref=$(jq -r '.version.ref // ""' < $payload)
+
+base_uri="https://api.snap-ci.com/project/${owner}/${repository}/branch/${branch_name}/pipelines"
+
+build="$(basename $(curl_wrapper ${user} ${api_key} ${base_uri}/latest | jq -r '._links.redirect.href // ""'))"
+
+if [ -n "${ref}" ] && [ "${ref}" -ne "${build}" ]; then
+    builds="${build}"
+    until [ "${build}" -eq "${ref}" ]; do
+        build=$(basename $(curl_wrapper ${user} ${api_key} ${base_uri}/${build} | jq -r '._links.previous.href'))
+        builds="${build}\n${builds}"
+    done
+else
+    builds="${build}"
+fi
+
+echo -e "${builds}" | jq -R '.' | jq -s 'map({ref: .})'
