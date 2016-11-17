@@ -37,5 +37,28 @@ No-op.
 ## Example
 
 ``` yaml
+resource_types:
+- name: snap-ci
+  type: docker-image
+  source:
+    repository: timjones/snapci-resource
 
+resources:
+- name: snapci-pipeline
+  type: snap-ci
+  source:
+    owner: ProjectOwner
+    repository: some-repo
+    branch_name: master
+    user: Me
+    api_key: MySnapCiAPIKey
+
+jobs:
+- name: run-end-to-end-tests
+  plan:
+  - get: snapci-pipeline
+    trigger: true
+  - task: run-tests
+    config:
+      ...
 ```
