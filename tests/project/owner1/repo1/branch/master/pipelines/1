@@ -1,0 +1,112 @@
+{
+  "_links": {
+    "self": {
+      "href": "http://api/project/owner1/repo1/branch/master/pipelines/1"
+    },
+    "latest": {
+      "href": "http://api/project/owner1/repo1/branch/master/pipelines/{latest,newest}"
+    },
+    "oldest": {
+      "href": "http://api/project/owner1/repo1/branch/master/pipelines/{oldest,earliest}"
+    },
+    "next": {
+      "href": "http://api/project/owner1/repo1/branch/master/pipelines/2"
+    },
+    "docs": {
+      "href": "https://docs.snap-ci.com/api/pipelines"
+    }
+  },
+  "counter": 1,
+  "result": "passed",
+  "commits": [
+    {
+      "_links": {
+        "github": [
+          {
+            "rel": "api",
+            "href": "https://api.github.com/repos/owner1/repo1/commits/53fb6cfe8a14cbcac0f4f291f1118b1de11118d9"
+          },
+          {
+            "rel": "http",
+            "href": "https://github.com/owner1/repo1/commits/53fb6cfe8a14cbcac0f4f291f1118b1de11118d9"
+          }
+        ]
+      },
+      "sha": "53fb6cfe8a14cbcac0f4f291f1118b1de11118d9",
+      "short_sha": "53fb6cf",
+      "author": "Ketan Padegaonkar <ketanpadegaonkar@gmail.com>",
+      "message": "Update config.ru",
+      "time": "2014-09-1T10:02:59Z"
+    }
+  ],
+  "stages": [
+    {
+      "name": "Build",
+      "full_name": "owner1/repo1 (master) :: Build",
+      "result": "passed",
+      "duration": 19,
+      "workers": [
+        {
+          "counter": 1,
+          "result": "passed",
+          "duration": 2.1183619499206543,
+          "artifacts": [
+            {
+              "_links": {
+                "self": {
+                  "href": "https://api.snap-ci.com/project/owner1/repo1/branch/master/artifacts/tracking-pipeline/1/Build/1/foo"
+                }
+              },
+              "name": "foo",
+              "download_url": "https://api.snap-ci.com/project/owner1/repo1/branch/master/artifacts/tracking-pipeline/1/Build/1/foo"
+            }
+          ],
+          "started_at": "2014-12-1T15:49:37Z",
+          "completed_at": "2014-12-1T15:49:39Z"
+        }
+      ],
+      "started_at": "2014-12-1T15:49:21Z",
+      "completed_at": "2014-12-1T15:49:40Z"
+    },
+    {
+      "name": "Deploy",
+      "full_name": "owner1/repo1 (master) :: Deploy",
+      "result": "passed",
+      "duration": 21,
+      "workers": [
+        {
+          "counter": 1,
+          "result": "passed",
+          "duration": 2.147803783416748,
+          "artifacts": [
+
+          ],
+          "started_at": "2014-12-1T15:50:07Z",
+          "completed_at": "2014-12-1T15:50:09Z"
+        }
+      ],
+      "started_at": "2014-12-1T15:49:48Z",
+      "completed_at": "2014-12-1T15:50:09Z"
+    },
+    {
+      "name": "Smoke",
+      "full_name": "owner1/repo1 (master) :: Smoke",
+      "result": "passed",
+      "duration": 2,
+      "workers": [
+        {
+          "counter": 1,
+          "result": "passed",
+          "duration": 1.118443012175488,
+          "artifacts": [
+
+          ],
+          "started_at": "2014-12-1T15:50:10Z",
+          "completed_at": "2014-12-1T15:50:11Z"
+        }
+      ],
+      "started_at": "2014-12-1T15:50:10Z",
+      "completed_at": "2014-12-1T15:50:12Z"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "_links": {
+    "redirect": {
+      "href": "http://api/project/owner1/repo1/branch/master/pipelines/3"
+    }
+  }
+}
