@@ -16,6 +16,8 @@ Useful when migrating from Snap CI to Concourse CI.
 
 * `api_key`: *Required.* Your Snap CI User API Key.
 
+* `api_server`: *Optional.* The Snap CI API server. Defaults to `https://api.snap-ci.com`.
+
 ## Behavior
 
 ### `check`: Checks for Snap CI builds.

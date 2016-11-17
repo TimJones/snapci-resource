@@ -23,10 +23,11 @@ repository=$(jq -r '.source.repository // ""' < $payload)
 branch_name=$(jq -r '.source.branch_name // ""' < $payload)
 user=$(jq -r '.source.user // ""' < $payload)
 api_key=$(jq -r '.source.api_key // ""' < $payload)
+api_server=$(jq -r '.source.api_server // "https://api.snap-ci.com"' < $payload)
 
 ref=$(jq -r '.version.ref // ""' < $payload)
 
-base_uri="https://api.snap-ci.com/project/${owner}/${repository}/branch/${branch_name}/pipelines"
+base_uri="${api_server}/project/${owner}/${repository}/branch/${branch_name}/pipelines"
 
 build="$(basename $(curl_wrapper ${user} ${api_key} ${base_uri}/latest | jq -r '._links.redirect.href // ""'))"
 
