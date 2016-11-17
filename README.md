@@ -29,11 +29,6 @@ pipeline.
 No-op.
 
 
-#### Parameters
-
-No-op.
-
-
 ### `out`: Nothing.
 
 No-op.
