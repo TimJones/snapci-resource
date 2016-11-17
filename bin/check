@@ -15,7 +15,6 @@ curl_wrapper () {
 export TMPDIR=${TMPDIR:-/tmp}
 
 payload=${TMPDIR}/snapci-resource-request
-builds=${TMPDIR}/snapci-builds
 
 cat > $payload <&0
 
