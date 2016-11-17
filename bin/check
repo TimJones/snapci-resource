@@ -15,7 +15,6 @@ curl_wrapper () {
 export TMPDIR=${TMPDIR:-/tmp}
 
 payload=${TMPDIR}/snapci-resource-request
-builds=${TMPDIR}/snapci-builds
 
 cat > $payload <&0
 
@@ -41,4 +40,4 @@ else
     builds="${build}"
 fi
 
-echo -e "${builds}" | jq -R '.' | jq -s 'map({ref: .})'
+echo -e "${builds}" | jq -R '.' | jq -s 'map({ref: .})'>&3
