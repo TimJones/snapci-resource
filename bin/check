@@ -41,4 +41,4 @@ else
     builds="${build}"
 fi
 
-echo -e "${builds}" | jq -R '.' | jq -s 'map({ref: .})'
+echo -e "${builds}" | jq -R '.' | jq -s 'map({ref: .})'>&3
