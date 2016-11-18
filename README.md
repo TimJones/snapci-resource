@@ -10,13 +10,13 @@ Useful when migrating from Snap CI to Concourse CI.
 
 * `repository`: *Required.* The Snap CI build repository.
 
-* `branch_name`: *Required.* The Snap CI build branch name.
-
 * `user`: *Required.* Your Snap CI user account.
 
 * `api_key`: *Required.* Your Snap CI User API Key.
 
 * `result_filter`: *Optional.* Only list pipelines that match this result.
+
+* `branch_name`: *Optional.* The Snap CI build branch name. Defaults to `master`.
 
 ## Behavior
 

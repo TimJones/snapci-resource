@@ -20,7 +20,7 @@ cat > $payload <&0
 
 owner=$(jq -r '.source.owner // ""' < $payload)
 repository=$(jq -r '.source.repository // ""' < $payload)
-branch_name=$(jq -r '.source.branch_name // ""' < $payload)
+branch_name=$(jq -r '.source.branch_name // "master"' < $payload)
 user=$(jq -r '.source.user // ""' < $payload)
 api_key=$(jq -r '.source.api_key // ""' < $payload)
 
