@@ -24,6 +24,7 @@ branch_name=$(jq -r '.source.branch_name // ""' < $payload)
 user=$(jq -r '.source.user // ""' < $payload)
 api_key=$(jq -r '.source.api_key // ""' < $payload)
 
+result_filter=$(jq -r '.source.result_filter // ""' < $payload)
 ref=$(jq -r '.version.ref // ""' < $payload)
 
 base_uri="https://api.snap-ci.com/project/${owner}/${repository}/branch/${branch_name}/pipelines"
@@ -39,6 +40,19 @@ if [ -n "${ref}" ] && [ "${ref}" -ne "${build}" ]; then
     builds="${build} ${builds}"
 else
     builds="${build}"
+fi
+
+if [ -n "${result_filter}" ]; then
+    filtered_builds=""
+    echo "check builds ${builds}"
+    for build in ${builds}; do
+        result=$(curl_wrapper ${user} ${api_key} ${base_uri}/${build} | jq -r '.result')
+        echo "${build} ${result}"
+        if [ "${result}" = "${result_filter}" ]; then
+             filtered_builds="${filtered_builds} ${build}"
+        fi
+    done
+    builds="${filtered_builds}"
 fi
 
 echo "${builds}" | awk 'BEGIN { OFS="\n" } { $1=$1; print $0 }' | jq -R '.' | jq -s 'map({ref: .})'>&3
