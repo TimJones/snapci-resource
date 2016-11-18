@@ -16,6 +16,8 @@ Useful when migrating from Snap CI to Concourse CI.
 
 * `api_key`: *Required.* Your Snap CI User API Key.
 
+* `result_filter`: *Optional.* Only list pipelines that match this result.
+
 ## Behavior
 
 ### `check`: Checks for Snap CI builds.
