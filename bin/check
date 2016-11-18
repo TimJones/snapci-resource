@@ -31,13 +31,14 @@ base_uri="https://api.snap-ci.com/project/${owner}/${repository}/branch/${branch
 build="$(basename $(curl_wrapper ${user} ${api_key} ${base_uri}/latest | jq -r '._links.redirect.href // ""'))"
 
 if [ -n "${ref}" ] && [ "${ref}" -ne "${build}" ]; then
-    builds="${build}"
+    builds=""
     until [ "${build}" -eq "${ref}" ]; do
+        builds="${build} ${builds}"
         build=$(basename $(curl_wrapper ${user} ${api_key} ${base_uri}/${build} | jq -r '._links.previous.href'))
-        builds="${build}\n${builds}"
     done
+    builds="${build} ${builds}"
 else
     builds="${build}"
 fi
 
-echo -e "${builds}" | jq -R '.' | jq -s 'map({ref: .})'>&3
+echo "${builds}" | awk 'BEGIN { OFS="\n" } { $1=$1; print $0 }' | jq -R '.' | jq -s 'map({ref: .})'>&3
