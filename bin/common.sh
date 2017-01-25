@@ -11,7 +11,7 @@ curl_wrapper () {
 
 add_pipeline_metadata_basic() {
     jq ". + [
-      {name: \"counter\", value: $(jq '.counter' < $1)},
+      {name: \"counter\", value: $(jq '.counter | tostring' < $1)},
       {name: \"result\", value: $(jq '.result' < $1)},
       {name: \"commit\", value: $(jq '.commits | .[0].sha' < $1)},
       {name: \"author\", value: $(jq '.commits | .[0].author' < $1)},
