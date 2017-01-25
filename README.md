@@ -34,6 +34,7 @@ Gets the JSON data for the pipeline and saves it to `snap_ci.json`.
 
 * `json_file`: *Optional.* Change the file in which to save the JSON pipeline data.
 
+* `counter_file`: *Optional.* Output the pipeline counter to the file indicated.
 
 ### `out`: Nothing.
 
