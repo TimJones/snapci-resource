@@ -26,10 +26,17 @@ Calls the Snap CI pipelines API to iterate over builds in the specified
 pipeline.
 
 
-### `in`: Nothing.
+### `in`: Get pipeline JSON data.
 
-No-op.
+Gets the JSON data for the pipeline and saves it to `snap_ci.json`.
 
+#### Parameters
+
+* `json_file`: *Optional.* Change the file in which to save the JSON pipeline data.
+
+* `counter_file`: *Optional.* Output the pipeline counter to the file indicated.
+
+* `link_file`: *Optional.* Output the Snap-CI URL of the pipeline to the file indicated.
 
 ### `out`: Nothing.
 

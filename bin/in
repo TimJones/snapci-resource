@@ -1,3 +1,42 @@
 #!/bin/sh
 
-echo "{}"
+set -eu
+
+exec 3>&1 # make stdout available as fd 3 for the result
+exec 1>&2 # redirect all output to stderr for logging
+
+source $(dirname $0)/common.sh
+
+destination=$1
+
+cat > $payload <&0
+
+owner=$(jq -r '.source.owner // ""' < $payload)
+repository=$(jq -r '.source.repository // ""' < $payload)
+branch_name=$(jq -r '.source.branch_name // ""' < $payload)
+user=$(jq -r '.source.user // ""' < $payload)
+api_key=$(jq -r '.source.api_key // ""' < $payload)
+
+ref=$(jq -r '.version.ref // ""' < $payload)
+
+json_file=$(jq -r '.params.json_file // "snap_ci.json"' < $payload)
+counter_file=$(jq -r '.params.counter_file // ""' < $payload)
+link_file=$(jq -r '.params.link_file // ""' < $payload)
+
+base_uri="https://api.snap-ci.com/project/${owner}/${repository}/branch/${branch_name}/pipelines"
+
+curl_wrapper ${user} ${api_key} ${base_uri}/${ref} > ${destination}/${json_file}
+
+if [ -n "${counter_file}" ]; then
+    jq -r '.counter' < ${destination}/${json_file} > ${destination}/${counter_file}
+fi
+
+if [ -n "${link_file}" ]; then
+    jq -r '._links.self.href' < ${destination}/${json_file} > ${destination}/${link_file}
+fi
+
+# Metadata
+jq -n "{
+  version: {ref: $(echo $ref | jq -R .)},
+  metadata: $(pipeline_metadata ${destination}/${json_file})
+}" >&3
