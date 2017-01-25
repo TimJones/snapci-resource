@@ -1,3 +1,35 @@
 #!/bin/sh
 
-echo "{}"
+set -eu
+
+exec 3>&1 # make stdout available as fd 3 for the result
+exec 1>&2 # redirect all output to stderr for logging
+
+curl_wrapper () {
+    user=$1
+    auth=$2
+    uri=$3
+    curl -Ss -u ${user}:${auth} -X GET -H 'Accept: application/vnd.snap-ci.com.v1+json' ${uri}
+}
+
+export TMPDIR=${TMPDIR:-/tmp}
+
+payload=${TMPDIR}/snapci-resource-request
+
+destination=$1
+
+cat > $payload <&0
+
+owner=$(jq -r '.source.owner // ""' < $payload)
+repository=$(jq -r '.source.repository // ""' < $payload)
+branch_name=$(jq -r '.source.branch_name // ""' < $payload)
+user=$(jq -r '.source.user // ""' < $payload)
+api_key=$(jq -r '.source.api_key // ""' < $payload)
+
+ref=$(jq -r '.version.ref // ""' < $payload)
+
+json_file=$(jq -r '.params.json_file // "snap_ci.json"' < $payload)
+
+base_uri="https://api.snap-ci.com/project/${owner}/${repository}/branch/${branch_name}/pipelines"
+
+curl_wrapper ${user} ${api_key} ${base_uri}/${ref} > ${destination}/${json_file}
