@@ -36,6 +36,8 @@ Gets the JSON data for the pipeline and saves it to `snap_ci.json`.
 
 * `counter_file`: *Optional.* Output the pipeline counter to the file indicated.
 
+* `link_file`: *Optional.* Output the Snap-CI URL of the pipeline to the file indicated.
+
 ### `out`: Nothing.
 
 No-op.

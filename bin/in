@@ -21,6 +21,7 @@ ref=$(jq -r '.version.ref // ""' < $payload)
 
 json_file=$(jq -r '.params.json_file // "snap_ci.json"' < $payload)
 counter_file=$(jq -r '.params.counter_file // ""' < $payload)
+link_file=$(jq -r '.params.link_file // ""' < $payload)
 
 base_uri="https://api.snap-ci.com/project/${owner}/${repository}/branch/${branch_name}/pipelines"
 
@@ -28,6 +29,10 @@ curl_wrapper ${user} ${api_key} ${base_uri}/${ref} > ${destination}/${json_file}
 
 if [ -n "${counter_file}" ]; then
     jq -r '.counter' < ${destination}/${json_file} > ${destination}/${counter_file}
+fi
+
+if [ -n "${link_file}" ]; then
+    jq -r '._links.self.href' < ${destination}/${json_file} > ${destination}/${link_file}
 fi
 
 # Metadata
