@@ -16,6 +16,8 @@ Useful when migrating from Snap CI to Concourse CI.
 
 * `result_filter`: *Optional.* Only list pipelines that match this result.
 
+* `result_stage_filter`: *Optional.* Only list pipeline with a stage that matches this filter, and whose result matches the `result_filter`.
+
 * `branch_name`: *Optional.* The Snap CI build branch name. Defaults to `master`.
 
 ## Behavior
